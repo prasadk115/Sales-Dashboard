@@ -56,7 +56,7 @@ The application does not use or expose a Supabase service role key. `NEXT_PUBLIC
 ## Supabase setup
 
 1. Create a Supabase project.
-2. Run `supabase/migrations/20261126000000_initial_schema.sql` in the SQL editor or through the Supabase CLI.
+2. Run the SQL files in `supabase/migrations/` in filename order in the SQL editor or through the Supabase CLI. The second migration grants the authenticated database role access while preserving RLS.
 3. Run `supabase/seed.sql` to add synthetic starter data.
 4. Add the project URL and anonymous key to `.env.local`.
 

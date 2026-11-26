@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { salesAccessMessage, verifySalesAccess } from "@/lib/queries/sales-access";
 
 type QueryState = "ready" | "authentication-required" | "unavailable";
 export type ProductRecord = { id: string; name: string; sku: string; unit_price: number | string; active: boolean };
@@ -10,6 +11,8 @@ async function getReadClient(): Promise<{ state: Exclude<QueryState, "ready">; m
   if (!client) return { state: "unavailable", message: "Supabase is not configured." };
   const { data: { user }, error } = await client.auth.getUser();
   if (error || !user) return { state: "authentication-required", message: "Sign in is required to view live sales data." };
+  const access = await verifySalesAccess(client);
+  if (!access.ok) return { state: "unavailable", message: salesAccessMessage(access.failure).replace("Preview data is shown because ", "") };
   return { state: "ready", client };
 }
 

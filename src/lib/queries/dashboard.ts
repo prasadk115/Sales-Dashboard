@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { createClient } from "@/lib/supabase/server";
+import { salesAccessMessage, verifySalesAccess } from "@/lib/queries/sales-access";
 import type { Category, DashboardData, DashboardResult, Kpi, Transaction } from "@/types/dashboard";
 
 export const kpis: Kpi[] = [
@@ -26,8 +27,6 @@ type OrderRow = { id: string; order_number: string; status: string; total_amount
 const toNumber = (value: number | string) => typeof value === "number" ? value : Number(value);
 const initials = (name: string) => name.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase();
 const status = (value: string): Transaction["status"] => value === "paid" ? "Paid" : value === "refunded" ? "Refunded" : "Pending";
-const isMissingSalesSchema = (code?: string) => code === "42P01" || code === "PGRST205";
-
 export async function getDashboardData(): Promise<DashboardResult> {
   const client = await createClient();
   if (!client) return { source: "preview", message: "Preview data is shown because Supabase is not configured.", data: previewData };
@@ -36,11 +35,8 @@ export async function getDashboardData(): Promise<DashboardResult> {
     const { data: { user }, error: authError } = await client.auth.getUser();
     if (authError || !user) return { source: "preview", message: "Preview data is shown because signing in is required to read sales data.", data: previewData };
 
-    const { error: schemaError } = await client.from("orders").select("id", { count: "exact", head: true }).limit(1);
-    if (schemaError) {
-      const message = isMissingSalesSchema(schemaError.code) ? "Preview data is shown because the sales schema has not been applied yet." : "Preview data is shown because the sales schema could not be verified.";
-      return { source: "preview", message, data: previewData };
-    }
+    const access = await verifySalesAccess(client);
+    if (!access.ok) return { source: "preview", message: salesAccessMessage(access.failure), data: previewData };
 
     const [ordersResult, customersResult, productsResult] = await Promise.all([
       client.from("orders").select("id, order_number, status, total_amount, ordered_at, customers(name, company_name), order_items(quantity, unit_price, products(name))").order("ordered_at", { ascending: false }).limit(1000),
