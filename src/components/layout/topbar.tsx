@@ -1,2 +1,3 @@
-import { Bell, ChevronDown, Search } from "lucide-react";
-export function Topbar() { return <header className="topbar"><label className="search"><Search size={17}/><input aria-label="Search" placeholder="Search anything..." /></label><div className="top-actions"><button className="icon-btn" aria-label="Notifications"><Bell size={18}/></button><div className="profile"><span className="avatar">AD</span><span className="profile-copy"><strong>Anika Desai</strong><span>Administrator</span></span><ChevronDown size={15} color="#94a3b8"/></div></div></header> }
+import { Bell, Search } from "lucide-react";
+import { AccountMenu } from "@/components/auth/account-menu";
+export function Topbar({ email }: { email: string }) { return <header className="topbar"><label className="search"><Search size={17}/><input aria-label="Search" placeholder="Search anything..." /></label><div className="top-actions"><button className="icon-btn" aria-label="Notifications"><Bell size={18}/></button><AccountMenu email={email}/></div></header> }

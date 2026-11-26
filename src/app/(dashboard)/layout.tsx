@@ -1,2 +1,3 @@
-import { MobileNavigation } from "@/components/layout/mobile-navigation"; import { Sidebar } from "@/components/layout/sidebar"; import { Topbar } from "@/components/layout/topbar";
-export default function DashboardLayout({children}:{children:React.ReactNode}){ return <div className="shell"><Sidebar/><div className="page-area"><Topbar/>{children}</div><MobileNavigation/></div> }
+import { redirect } from "next/navigation";
+import { MobileNavigation } from "@/components/layout/mobile-navigation"; import { Sidebar } from "@/components/layout/sidebar"; import { Topbar } from "@/components/layout/topbar"; import { createClient } from "@/lib/supabase/server";
+export default async function DashboardLayout({children}:{children:React.ReactNode}){ const supabase = await createClient(); if (!supabase) redirect("/login?error=configuration"); const { data: { user } } = await supabase.auth.getUser(); if (!user) redirect("/login?next=/dashboard"); return <div className="shell"><Sidebar/><div className="page-area"><Topbar email={user.email ?? "Account"}/>{children}</div><MobileNavigation/></div> }

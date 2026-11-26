@@ -48,10 +48,10 @@ Create `.env.local` from `.env.example` and add these values only when you are r
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
 
-The application does not use or expose a Supabase service role key. Without these values, the dashboard intentionally uses local preview data.
+The application does not use or expose a Supabase service role key. `NEXT_PUBLIC_SUPABASE_ANON_KEY` is supported only as a legacy fallback. Without valid configuration, or while the sales schema is unavailable, the dashboard intentionally uses local preview data and labels it as such.
 
 ## Supabase setup
 
