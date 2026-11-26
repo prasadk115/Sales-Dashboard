@@ -1,0 +1,1 @@
+export default function CustomersPage(){return <main id="main-content" className="main"><section className="card placeholder"><h1 className="heading-4">Customer directory</h1><p>View and segment customer relationships as your sales data grows.</p></section></main>}

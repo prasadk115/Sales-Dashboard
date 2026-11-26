@@ -1,0 +1,1 @@
+export default function ProductsPage(){return <main id="main-content" className="main"><section className="card placeholder"><h1 className="heading-4">Product catalog</h1><p>Product and pricing management will appear here when your data source is connected.</p></section></main>}

@@ -1,0 +1,2 @@
+import Link from "next/link"; import { ChartNoAxesCombined, ShoppingCart, Users, BarChart3 } from "lucide-react";
+export function MobileNavigation(){ const links=[['/dashboard','Overview',ChartNoAxesCombined],['/sales','Sales',ShoppingCart],['/customers','Customers',Users],['/reports','Reports',BarChart3]] as const; return <nav className="mobile-nav" aria-label="Mobile navigation">{links.map(([href,label,Icon])=><Link key={href} href={href} className={href === '/dashboard' ? 'active':''}><Icon size={18}/>{label}</Link>)}</nav> }

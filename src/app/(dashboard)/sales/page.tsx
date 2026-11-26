@@ -1,0 +1,1 @@
+export default function SalesPage(){return <main id="main-content" className="main"><section className="card placeholder"><h1 className="heading-4">Sales workspace</h1><p>Manage pipeline activity and sales orders from one focused workspace.</p></section></main>}

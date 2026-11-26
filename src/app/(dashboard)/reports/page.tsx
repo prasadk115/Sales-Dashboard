@@ -1,0 +1,1 @@
+export default function ReportsPage(){return <main id="main-content" className="main"><section className="card placeholder"><h1 className="heading-4">Reports</h1><p>Saved reports and export options are ready to be connected to your Supabase data.</p></section></main>}

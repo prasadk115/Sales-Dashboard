@@ -1,0 +1,1 @@
+export default function SettingsPage(){return <main id="main-content" className="main"><section className="card placeholder"><h1 className="heading-4">Workspace settings</h1><p>Add your Supabase environment values to use persistent data instead of labelled preview data.</p></section></main>}
